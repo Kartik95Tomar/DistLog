@@ -1,12 +1,16 @@
 package com.example.DistLog.controller;
 
+import com.example.DistLog.exceptions.OffsetNotFound;
+import com.example.DistLog.models.Record;
 import com.example.DistLog.service.LogService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class LogController {
 
     private LogService logService;
@@ -16,12 +20,22 @@ public class LogController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Integer> addLog() {
-        return ResponseEntity.ok(logService.handleProduce());
+    public ResponseEntity<Long> addLog(@RequestBody Record record) {
+        try {
+            long offset = logService.handleProduce(record);
+            return ResponseEntity.status(HttpStatus.CREATED).body(offset);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/")
-    public ResponseEntity<String> getLog() {
-        return ResponseEntity.ok(logService.handleConsume());
+    public ResponseEntity<Record> getLog(@RequestBody Long offset) {
+        try {
+            Record record = logService.handleConsume(offset);
+            return ResponseEntity.status(HttpStatus.OK).body(record);
+        } catch (OffsetNotFound e) {
+            throw new RuntimeException(e);
+        }
     }
 }
