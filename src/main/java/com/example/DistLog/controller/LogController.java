@@ -5,10 +5,7 @@ import com.example.DistLog.models.Record;
 import com.example.DistLog.service.LogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LogController {
@@ -30,8 +27,8 @@ public class LogController {
         }
     }
 
-    @GetMapping("/")
-    public ResponseEntity<Record> getLog(@RequestBody Long offset) {
+    @GetMapping("/{offset}")
+    public ResponseEntity<Record> getLog(@PathVariable Long offset) {
         try {
             Record record = logService.handleConsume(offset);
             return ResponseEntity.status(HttpStatus.OK).body(record);
