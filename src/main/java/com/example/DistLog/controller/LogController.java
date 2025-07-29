@@ -15,7 +15,7 @@ public class LogController {
 
     private LogService logService;
 
-    LogController(LogService logService) {
+    public LogController(LogService logService) {
         this.logService = logService;
     }
 
@@ -25,7 +25,8 @@ public class LogController {
             long offset = logService.handleProduce(record);
             return ResponseEntity.status(HttpStatus.CREATED).body(offset);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace(); // or use a logger
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

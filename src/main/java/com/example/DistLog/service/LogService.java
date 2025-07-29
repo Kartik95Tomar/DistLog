@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class LogService {
 
     private Log log;
-    LogService(Log log) {
+    public LogService(Log log) {
         this.log = log;
     }
 

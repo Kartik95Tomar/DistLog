@@ -5,8 +5,8 @@ public class Record {
     private String value;
     private Long offset;
 
-    Record() {}
-    Record(String value, long offset) {
+    public Record() {}
+    public Record(String value, long offset) {
         this.value = value;
         this.offset = offset;
     }

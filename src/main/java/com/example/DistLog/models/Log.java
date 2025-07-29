@@ -1,14 +1,17 @@
 package com.example.DistLog.models;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 
+@Component
 public class Log {
 
-    private ArrayList<Record> records;
+    private ArrayList<Record> records = new ArrayList<>();
 
-    Log() {}
+    public Log() {}
 
-    Log(ArrayList<Record> records) {
+    public Log(ArrayList<Record> records) {
         this.records = records;
     }
 
